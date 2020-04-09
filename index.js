@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const fs = require("fs");
 const util = require("util");
 const markdown = require('./utils/generateMarkdown.js');
-
+const gAPI = require('./utils/api.js');
 
 //const readFileAsync = util.promisify(fs.readFile);
 //const writeFileAsync = util.promisify(fs.writeFile);
@@ -36,7 +36,7 @@ function init() {
     inquirer.prompt([
         {
             type: "input",
-            name: "github_username",
+            name: "username",
             message: "What is your GitHub username?"
         },
         {
@@ -82,8 +82,19 @@ function init() {
         }   
     ])
     .then(function(answers){
-        const makeMarkdown = markdown(answers);
-        return writeToFile("generateMarkdown.md", makeMarkdown);
+       // const avatar = 
+        gAPI.getUser(answers.username)
+            /*.then(function(avatar) {
+                console.log(avatar);
+                console.log(answers.username);
+                const makeMarkdown = markdown(answers, avatar);
+                return writeToFile("generateMarkdown.md", makeMarkdown); 
+            })*/
+            .then(function(avatar) {
+                const makeMarkdown = markdown(answers, avatar.data.avatar_url)
+                console.log(avatar)
+                return writeToFile("generateMarkdown.md", makeMarkdown);
+            })
     })
     .then(function() {
         console.log("Markdown Success");

@@ -1,4 +1,4 @@
-function generateMarkdown(data) {
+function generateMarkdown(data, gitAvatar) {
   let GH = "https://img.shields.io/github/license/mashape/apistatus";
   if (data.License == "Github") {
     GH = "https://img.shields.io/github/license/mashape/apistatus";
@@ -7,10 +7,10 @@ function generateMarkdown(data) {
   } else {
     GH = "https://img.shields.io/cpan/l/Config-Augeas"
   };
-  
-
-  
   return `
+
+## GitHub Avatar
+![Avatar](${gitAvatar})
 
 # Title
 ${data.title}
@@ -41,6 +41,7 @@ ${data.Contributing}
 
 ## Tests
 ${data.Tests}
+
 
 `;
 }
